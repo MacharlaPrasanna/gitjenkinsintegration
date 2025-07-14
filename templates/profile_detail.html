@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile.user.username }}'s Profile{% endblock %}
+
+{% block content %}
+<h2>{{ profile.user.username }}</h2>
+<p><strong>Bio:</strong> {{ profile.bio }}</p>
+<p><strong>Location:</strong> {{ profile.location }}</p>
+<p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
+{% if profile.profile_image %}
+    <img src="{{ profile.profile_image.url }}" alt="Profile Image" style="max-width: 200px;">
+{% endif %}
+<a href="{% url 'edit_profile' %}">Edit Profile</a>
+<hr>
+<h3>Posts by {{ profile.user.username }}</h3>
+<ul>
+    {% for post in profile.posts.all %}
+        <li>
+            <strong>{{ post.title }}</strong> <br>
+            {{ post.content }} <br>
+            <small>Posted on {{ post.created_at|date:"M d, Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li>No posts yet.</li>
+    {% endfor %}
+</ul>
+
+
+<a href="{% url 'profile_list' %}">← Back to list</a>
+{% endblock %}

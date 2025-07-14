@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Profile List{% endblock %}
+
+{% block content %}
+<h2>All User Profiles</h2>
+<ul>
+    {% for profile in page_obj %}
+        <li>
+            <a href="{% url 'profile_detail' profile.pk %}">
+                {{ profile.user.username }}
+            </a> — {{ profile.location }}
+        </li>
+    {% empty %}
+        <li>No profiles found.</li>
+    {% endfor %}
+</ul>
+
+<!-- Pagination controls -->
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">« Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next »</a>
+    {% endif %}
+</div>
+{% endblock %}
